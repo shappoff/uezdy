@@ -61,6 +61,7 @@ const formatGroupLabel = (data: GroupedOption) => (
 
 const App = () => {
     const [value, setValue] = React.useState<string>('');
+    const [defaultFacets, setDefaultFacets] = React.useState<any>({});
     const [facetsUezd, setFacetsUezd] = React.useState<any>({});
     const [uezdFilter, setUezdFilter] = React.useState<any>([]);
     const [facetsVolost, setFacetsVolost] = React.useState<any>({});
@@ -68,6 +69,65 @@ const App = () => {
     const [facetsOwner, setFacetsOwner] = React.useState<any>({});
     const [ownerFilter, setOwnerFilter] = React.useState<any>([]);
     const [hits, setHits] = React.useState<Array<any>>([]);
+
+    React.useEffect(() => {
+        currentAlgoliaIndex.search('', {
+            hitsPerPage: 0,
+            facets: ['*']
+        })
+            .then(({facets}: any) => {
+                setDefaultFacets(facets);
+            });
+    }, []);
+
+    React.useEffect(() => {
+        currentAlgoliaIndex.search(value, {
+            facets: ['*'],
+            facetFilters: [
+                [...uezdFilter.map((uezd: any) => `uezd:${uezd}`)],
+                [...volostFilter.map((volost: any) => `volost:${volost}`)],
+                [...ownerFilter.map((ownerTitle: any) => `ownerTitle:${ownerTitle}`)],
+            ]
+        })
+            .then(({hits, facets}: any) => {
+                setHits(hits);
+                setFacetsVolost(facets.volost);
+                setFacetsOwner(facets.ownerTitle);
+            });
+    }, [uezdFilter]);
+
+    React.useEffect(() => {
+        currentAlgoliaIndex.search(value, {
+            facets: ['*'],
+            facetFilters: [
+                [...uezdFilter.map((uezd: any) => `uezd:${uezd}`)],
+                [...volostFilter.map((volost: any) => `volost:${volost}`)],
+                [...ownerFilter.map((ownerTitle: any) => `ownerTitle:${ownerTitle}`)],
+            ]
+        })
+            .then(({hits, facets}: any) => {
+                setHits(hits);
+                setFacetsUezd(facets.uezd);
+                setFacetsOwner(facets.ownerTitle);
+            });
+    }, [volostFilter]);
+
+    React.useEffect(() => {
+        currentAlgoliaIndex.search(value, {
+            facets: ['*'],
+            facetFilters: [
+                [...uezdFilter.map((uezd: any) => `uezd:${uezd}`)],
+                [...volostFilter.map((volost: any) => `volost:${volost}`)],
+                [...ownerFilter.map((ownerTitle: any) => `ownerTitle:${ownerTitle}`)],
+            ]
+        })
+            .then(({hits, facets}: any) => {
+                setHits(hits);
+                setFacetsUezd(facets.uezd);
+                setFacetsVolost(facets.volost);
+            });
+    }, [ownerFilter]);
+
     React.useEffect(() => {
         currentAlgoliaIndex.search(value, {
             facets: ['*'],
@@ -83,7 +143,8 @@ const App = () => {
                 setFacetsVolost(facets.volost);
                 setFacetsOwner(facets.ownerTitle);
             });
-    }, [value, ownerFilter, volostFilter, uezdFilter]);
+    }, [value]);
+
     const searchHandler = ({target}: any) => {
         setValue(target.value);
     }
