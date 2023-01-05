@@ -89,9 +89,9 @@ const App = () => {
     }
 
     return <div>
-        <DropDownComponent items={Object.keys(facetsUezd).map((facet) => ({value: facet, label: facet}))} changeHandler={(e: any) => setUezdFilter(e.map(({value}: any) => value))}></DropDownComponent>
-        <DropDownComponent items={Object.keys(facetsVolost).map((facet) => ({value: facet, label: facet}))} changeHandler={(e: any) => setVolostFilter(e.map(({value}: any) => value))}></DropDownComponent>
-        <DropDownComponent items={Object.keys(facetsOwner).map((facet) => ({value: facet, label: facet}))} changeHandler={(e: any) => setOwnerFilter(e.map(({value}: any) => value))}></DropDownComponent>
+        <DropDownComponent items={facetsUezd ? Object.keys(facetsUezd).map((facet) => ({value: facet, label: facet})) : []} changeHandler={(e: any) => setUezdFilter(e.map(({value}: any) => value))}></DropDownComponent>
+        <DropDownComponent items={facetsVolost ? Object.keys(facetsVolost).map((facet) => ({value: facet, label: facet})) : []} changeHandler={(e: any) => setVolostFilter(e.map(({value}: any) => value))}></DropDownComponent>
+        <DropDownComponent items={facetsOwner ? Object.keys(facetsOwner).map((facet) => ({value: facet, label: facet})) : []} changeHandler={(e: any) => setOwnerFilter(e.map(({value}: any) => value))}></DropDownComponent>
         <input autoFocus onChange={searchHandler} type="text" value={value} id="input"/>
         <ul className="list-group">
             {
