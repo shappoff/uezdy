@@ -156,7 +156,7 @@ const App = () => {
         <input autoFocus onChange={searchHandler} type="text" value={value} id="input"/>
         <ul className="list-group">
             {
-                hits.map(({npTitle, ownerTitle, uezd, volost}, index) => <li key={index} className="list-group-item">{npTitle}, {ownerTitle}, {uezd}, {volost}</li>)
+                hits.map(({npTitle, ownerTitle, uezd, volost, npType}, index) => <li key={index} className="list-group-item">{npType ? `${npType} ` : ''}{npTitle}, {volost}, {uezd}, (Принадлежность: {ownerTitle})</li>)
             }
         </ul>
     </div>
